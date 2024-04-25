@@ -1,13 +1,30 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --black: #131313;
+  --green: #588157;
+  --blue: #2563eb;
+  --white: #ffffff;
+  --gray: #b9bac7;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+@layer base {
+  @font-face {
+    font-family: "alibaba";
+    src: url(../public/font/alibaba-regular.woff2) format("woff2");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "alibaba";
+    src: url(../public/font/alibaba-regular.woff2) format("woff2");
+    font-weight: 700;
+  }
+  @font-face {
+    font-family: "kalameh";
+    src: url(../public/font/KalamehWeb_Black.woff2) format("woff2");
+    font-weight: 700;
+  }
 }
