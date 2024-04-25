@@ -1,4 +1,19 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchUserData } from "../store/user-slice";
+
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem("sb-dhqnztxmteoptdxbvbbl-auth-token"))
+      dispatch(
+        fetchUserData(
+          JSON.parse(localStorage.getItem("sb-dhqnztxmteoptdxbvbbl-auth-token")).user.id
+        )
+      );
+  }, []);
+
   return (
     <main>
       <div className="flex gap-1 flex-col px-6 py-4">

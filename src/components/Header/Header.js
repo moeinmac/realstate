@@ -9,12 +9,12 @@ const Header = () => {
   const user = useSelector((state) => state.user);
   const location = useLocation();
   if (location.pathname === "/auth") return;
-  
+
   return (
     <header className="flex items-center px-6 py-4 justify-between border-b-2 border-zinc-700">
       {user.isAuth && (
         <>
-          <Profile />
+          <Profile profile={user.data.profile} fullname={user.data.fullname} />
           <RiNotification2Fill className="text-3xl" />
         </>
       )}

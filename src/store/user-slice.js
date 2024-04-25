@@ -33,9 +33,14 @@ export const fetchUserData = (user_id) => {
 };
 
 export const sendUserData = (id, email) => {
+  const randomid = Math.floor(Math.random() * 5) + 1;
+  const PROFILE_URL = `https://dhqnztxmteoptdxbvbbl.supabase.co/storage/v1/object/public/profile/sample/${randomid}.jpg`;
   return async (dispatch) => {
     const fetchData = async () => {
-      const { data } = await supabase.from("user").insert({ id, email }).select();
+      const { data } = await supabase
+        .from("user")
+        .insert({ id, email, profile: PROFILE_URL })
+        .select();
       return { data };
     };
     try {
