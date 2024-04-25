@@ -32,5 +32,20 @@ export const fetchUserData = (user_id) => {
   };
 };
 
+export const sendUserData = (id, email) => {
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const { data } = await supabase.from("user").insert({ id, email }).select();
+      return { data };
+    };
+    try {
+      const { data } = await fetchData();
+      if (data) dispatch(user_slice.actions.setUser(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const user_action = user_slice.actions;
 export default user_slice;

@@ -4,7 +4,7 @@ import { Form, useActionData, useNavigate, useSubmit } from "react-router-dom";
 
 import { supabase } from "../../lib/supabase";
 import { useDispatch } from "react-redux";
-import { fetchUserData } from "../../store/user-slice";
+import { fetchUserData, sendUserData } from "../../store/user-slice";
 
 const AuthForm = ({ isLogin }) => {
   const [passVisible, setPassVisible] = useState(false);
@@ -17,7 +17,8 @@ const AuthForm = ({ isLogin }) => {
 
   useEffect(() => {
     if (actiondata && actiondata.data) {
-      dispatch(fetchUserData(actiondata.data.user.id));
+      if (actiondata.isLogin === "true") dispatch(fetchUserData(actiondata.data.user.id));
+      else dispatch(sendUserData(actiondata.data.user.id, actiondata.data.user.email));
       navigate("/");
     }
   }, [actiondata]);
@@ -82,19 +83,29 @@ const AuthForm = ({ isLogin }) => {
       {actiondata && actiondata.error && (
         <p className="font-alibaba text-red-600">{actiondata.error}</p>
       )}
+      <input name="islogin" type="hidden" defaultValue={isLogin} />
     </Form>
   );
 };
 
 export const formAction = async ({ request }) => {
   const userdata = await request.formData();
+  const isLogin = userdata.get("islogin");
+
   const userform = {
     email: userdata.get("email"),
     password: userdata.get("password"),
   };
-  const { error, data } = await supabase.auth.signInWithPassword(userform);
-  if (error) return { error: "خطا! اطلاعات وارد شده را بررسی کــنید و دوباره امتحان کــنید" };
-  if (data) return { data };
+
+  if (isLogin === "true") {
+    const { error, data } = await supabase.auth.signInWithPassword(userform);
+    if (error) return { error: "خطا! اطلاعات وارد شده را بررسی کــنید و دوباره امتحان کــنید" };
+    if (data) return { isLogin, data };
+  } else {
+    let { data, error } = await supabase.auth.signUp(userform);
+    if (error) return { error: "خطا! اطلاعات وارد شده را بررسی کــنید و دوباره امتحان کــنید" };
+    if (data) return { isLogin, data };
+  }
 };
 
 export default AuthForm;
