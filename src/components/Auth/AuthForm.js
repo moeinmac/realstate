@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { PiEyeClosedDuotone, PiEye } from "react-icons/pi";
+import { Form } from "react-router-dom";
 
 const AuthForm = ({ isLogin }) => {
   const [passVisible, setPassVisible] = useState(false);
   const passwordVisibleHandler = () => setPassVisible(!passVisible);
 
   return (
-    <form className="w-full flex flex-col gap-6 text-white">
+    <Form method="post" action="/auth" className="w-full flex flex-col gap-6 text-white">
       <label htmlFor="username" className="text-sm font-alibaba">
         ایمیل
         <input
@@ -17,7 +18,7 @@ const AuthForm = ({ isLogin }) => {
           } text-black font-alibaba text-xl outline-0 border-0 px-4 py-3 rounded-xl mt-2`}
           type="text"
           dir="ltr"
-          name="username"
+          name="email"
         />
       </label>
       <label htmlFor="password" className="text-sm font-alibaba relative">
@@ -52,8 +53,17 @@ const AuthForm = ({ isLogin }) => {
       >
         {isLogin ? "ورود" : "ثبت نام"}
       </button>
-    </form>
+    </Form>
   );
+};
+
+export const formAction = async ({ request }) => {
+  const data = await request.formData();
+  const userform = {
+    email: data.get("email"),
+    password: data.get("password"),
+  };
+  console.log(userform);
 };
 
 export default AuthForm;
