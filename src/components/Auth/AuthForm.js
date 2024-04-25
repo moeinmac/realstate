@@ -1,14 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PiEyeClosedDuotone, PiEye } from "react-icons/pi";
-import { Form, redirect, useSubmit } from "react-router-dom";
+import { Form, useActionData, useNavigate, useSubmit } from "react-router-dom";
 
 import { supabase } from "../../lib/supabase";
+import { useDispatch } from "react-redux";
+import { fetchUserData } from "../../store/user-slice";
 
 const AuthForm = ({ isLogin }) => {
   const [passVisible, setPassVisible] = useState(false);
   const passwordVisibleHandler = () => setPassVisible(!passVisible);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const submit = useSubmit();
+  const actiondata = useActionData();
+
+  useEffect(() => {
+    if (actiondata && actiondata.data) {
+      dispatch(fetchUserData(actiondata.data.user.id));
+      navigate("/");
+    }
+  }, [actiondata]);
 
   const submitFormHandler = () => {
     submit(null, { action: formAction });
@@ -67,6 +79,9 @@ const AuthForm = ({ isLogin }) => {
       >
         {isLogin ? "ورود" : "ثبت نام"}
       </button>
+      {actiondata && actiondata.error && (
+        <p className="font-alibaba text-red-600">{actiondata.error}</p>
+      )}
     </Form>
   );
 };
@@ -77,9 +92,9 @@ export const formAction = async ({ request }) => {
     email: userdata.get("email"),
     password: userdata.get("password"),
   };
-  const { data, error } = await supabase.auth.signInWithPassword(userform);
-  console.log(data);
-  return redirect("/");
+  const { error, data } = await supabase.auth.signInWithPassword(userform);
+  if (error) return { error: "خطا! اطلاعات وارد شده را بررسی کــنید و دوباره امتحان کــنید" };
+  if (data) return { data };
 };
 
 export default AuthForm;

@@ -1,11 +1,19 @@
 import { useState } from "react";
 import AuthForm from "../components/Auth/AuthForm";
+import { useSearchParams } from "react-router-dom";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const authTypeHandler = () => {
     setIsLogin(!isLogin);
   };
+
+  
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  if(searchParams.get("success")){
+    
+  }
 
   return (
     <main className="flex flex-col px-8 py-4 gap-14">
