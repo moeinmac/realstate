@@ -1,13 +1,26 @@
 import { useState } from "react";
 import { PiEyeClosedDuotone, PiEye } from "react-icons/pi";
-import { Form } from "react-router-dom";
+import { Form, redirect, useSubmit } from "react-router-dom";
+
+import { supabase } from "../../lib/supabase";
 
 const AuthForm = ({ isLogin }) => {
   const [passVisible, setPassVisible] = useState(false);
   const passwordVisibleHandler = () => setPassVisible(!passVisible);
 
+  const submit = useSubmit();
+
+  const submitFormHandler = () => {
+    submit(null, { action: formAction });
+  };
+
   return (
-    <Form method="post" action="/auth" className="w-full flex flex-col gap-6 text-white">
+    <Form
+      onSubmit={submitFormHandler}
+      action="/auth"
+      method="post"
+      className="w-full flex flex-col gap-6 text-white"
+    >
       <label htmlFor="username" className="text-sm font-alibaba">
         ایمیل
         <input
@@ -47,6 +60,7 @@ const AuthForm = ({ isLogin }) => {
         )}
       </label>
       <button
+        type="submit"
         className={`${
           isLogin ? "bg-blue" : "bg-green"
         } font-kalameh text-4xl rounded-lg w-full py-2`}
@@ -58,12 +72,14 @@ const AuthForm = ({ isLogin }) => {
 };
 
 export const formAction = async ({ request }) => {
-  const data = await request.formData();
+  const userdata = await request.formData();
   const userform = {
-    email: data.get("email"),
-    password: data.get("password"),
+    email: userdata.get("email"),
+    password: userdata.get("password"),
   };
-  console.log(userform);
+  const { data, error } = await supabase.auth.signInWithPassword(userform);
+  console.log(data);
+  return redirect("/");
 };
 
 export default AuthForm;
