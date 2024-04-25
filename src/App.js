@@ -11,16 +11,15 @@ import {
 import Layout from "./Layout";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
-import User from "./pages/User";
+import User, { updateFormAction } from "./pages/User";
 import { formAction } from "./components/Auth/AuthForm";
-
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route index element={<Home/>} />
+      <Route index element={<Home />} />
       <Route path="auth" element={<Auth />} action={formAction} />
-      <Route path="user" element={<User />} />
+      <Route path="user" element={<User />} action={updateFormAction} />
     </Route>
   )
 );

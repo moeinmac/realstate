@@ -12,7 +12,8 @@ const InitAuth = () => {
           JSON.parse(localStorage.getItem("sb-dhqnztxmteoptdxbvbbl-auth-token")).user.id
         )
       );
-  }, []);
+  }, [dispatch]);
+  
   return <></>;
 };
 

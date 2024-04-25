@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabase";
 const initialState = {
   isAuth: false,
   data: [],
+  isCompleted: false,
 };
 
 const user_slice = createSlice({
@@ -13,6 +14,7 @@ const user_slice = createSlice({
     setUser(state, action) {
       state.isAuth = true;
       state.data = action.payload;
+      state.isCompleted = action.payload.fullname && action.payload.phone
     },
   },
 });
