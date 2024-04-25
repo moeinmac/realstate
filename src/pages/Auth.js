@@ -3,12 +3,10 @@ import AuthForm from "../components/Auth/AuthForm";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const authTypeHandler = () => {
-    setIsLogin(!isLogin);
-  };
+  const authTypeHandler = () => setIsLogin(!isLogin);
 
   return (
-    <main className="flex flex-col px-8 py-4 gap-14">
+    <div className="flex flex-col px-8 py-4 gap-14">
       <div className="w-full flex flex-col justify-between">
         <div className="flex flex-col gap-y-5">
           {isLogin && (
@@ -38,7 +36,7 @@ const Auth = () => {
           {isLogin ? "همین الان ثبت نام کن" : "میخوام وارد حسابم بشم"}
         </button>
       </div>
-    </main>
+    </div>
   );
 };
 
