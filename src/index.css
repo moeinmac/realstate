@@ -9,7 +9,10 @@
   --white: #ffffff;
   --gray: #b9bac7;
 }
-
+body {
+  background-color: var(--black);
+  color: var(--white);
+}
 
 @layer base {
   @font-face {
