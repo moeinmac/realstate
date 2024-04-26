@@ -11,7 +11,7 @@ import {
 import Layout from "./Layout";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
-import User, { updateFormAction } from "./pages/User";
+import User, { updateFormAction } from "./components/User/UserForm";
 import { formAction } from "./components/Auth/AuthForm";
 
 const router = createBrowserRouter(
