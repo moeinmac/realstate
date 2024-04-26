@@ -10,9 +10,8 @@ import {
 
 import Layout from "./Layout";
 import Auth from "./pages/Auth";
-import Home from "./pages/Home";
+import Home, { loadAllEstates } from "./pages/Home";
 import User from "./pages/User";
-
 
 import AddEstate from "./pages/Estate/AddEstate";
 import EstateLayout from "./pages/Estate/EstateLayout";
@@ -28,7 +27,7 @@ import { supabase } from "./lib/supabase";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route index element={<Home />} />
+      <Route index element={<Home />} loader={loadAllEstates} />
       <Route path="auth" element={<Auth />} action={formAction} />
       <Route path="user" element={<User />} action={updateFormAction} />
       <Route path="estate" element={<EstateLayout />}>
@@ -38,7 +37,11 @@ const router = createBrowserRouter(
           path=":id"
           element={<EstateItem />}
           loader={async ({ params }) => {
-            return await supabase.from("estate").select("*, user(phone,fullname)").eq("id", params.id).single();
+            return await supabase
+              .from("estate")
+              .select("*, user(phone,fullname)")
+              .eq("id", params.id)
+              .single();
           }}
         />
       </Route>

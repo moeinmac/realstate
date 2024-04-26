@@ -1,5 +1,10 @@
-const Home = () => {
+import {  useLoaderData } from "react-router-dom";
+import { supabase } from "../lib/supabase";
+import EstateItem from "../components/Estate/EstateItem";
 
+const Home = () => {
+  const response = useLoaderData();
+  
   return (
     <>
       <div className="flex gap-1 flex-col px-6 py-4">
@@ -13,8 +18,16 @@ const Home = () => {
           placeholder="به دنبال چه میگردی؟"
         />
       </div>
+
+      <div className="flex flex-col px-6 gap-4 py-4">
+        {response.data.map((estate)=> <EstateItem key={estate.id} data={estate}/>)}
+      </div>
     </>
   );
+};
+
+export const loadAllEstates = async () => {
+  return await supabase.from("estate").select("*, user(phone,fullname)");
 };
 
 export default Home;
