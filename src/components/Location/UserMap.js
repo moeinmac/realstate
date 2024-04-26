@@ -1,17 +1,25 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from "react-leaflet";
+import LocationPicker from "./LocationPicker";
 
-const UserMap = () => {
+
+
+
+
+const UserMap = ({text}) => {
   return (
-    <MapContainer center={[35.6892523, 51.3896004]} zoom={13} scrollWheelZoom={false}>
+    <MapContainer
+      center={[35.6892523, 51.3896004]}
+      zoom={13}
+      scrollWheelZoom={true}
+      closePopupOnClick={() => {
+        console.log("HI");
+      }}
+    >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[35.6892523, 51.3896004]}>
-        {/* <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup> */}
-      </Marker>
+      <LocationPicker text={text}/>
     </MapContainer>
   );
 };
