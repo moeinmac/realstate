@@ -8,13 +8,23 @@ import UserMap from "../Location/UserMap";
 import useUserMap from "../../hooks/useUserMap";
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../lib/supabase";
+import { useEffect } from "react";
+import { fetchEstateData } from "../../store/estate-slice";
 
 const AddEstateForm = () => {
   const location = useUserMap("موقعیت مکانی ملک شما");
 
-  const user = useSelector((state) => state.user);
+  const estate = useSelector((state) => state.estate);
+  console.log(estate);
+  
   const actiondata = useActionData();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (actiondata && actiondata.esate_id) {
+      dispatch(fetchEstateData(actiondata.user_id, actiondata.esate_id, estate.data));
+    }
+  }, [actiondata, dispatch]);
 
   return (
     <Form className="px-6 flex flex-col gap-4" method="post" action="/estate/add">
@@ -34,10 +44,9 @@ const AddEstateForm = () => {
       <button type="submit" className={"bg-blue font-kalameh text-4xl rounded-lg w-full py-2"}>
         ذخیره تغییرات
       </button>
-      {/* {actiondata && actiondata.error && (
+      {actiondata && actiondata.error && (
         <p className="font-alibaba text-red-600">{actiondata.error}</p>
-      )} */}
-      <input type="hidden" defaultValue={user.data.id} name="owner" />
+      )}
       <input
         type="hidden"
         defaultValue={`{"lat" : ${location.data ? location.data.lat : "0"} , "lng" : ${
@@ -62,7 +71,7 @@ export const newEstateAction = async ({ request }) => {
   const { data, error } = await supabase.from("estate").insert(estateform).select().single();
 
   if (error) return { error: "خطا! اطلاعاتی که وارد کردید درست نیست ، لطفا دوباره امتحان کنید" };
-  if (data) return { id: data.id };
+  if (data) return { esate_id: data.id, user_id: data.owner };
 };
 
 export default AddEstateForm;
