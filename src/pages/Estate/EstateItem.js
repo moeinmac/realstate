@@ -33,7 +33,7 @@ const EstateItem = () => {
         <div className="px-6 py-4 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <h1 className="font-kalameh text-4xl">{data.title}</h1>
-            {user.data.id === data.owner && <EstateButton />}
+            {user.data.id === data.owner && <EstateButton estate_id={data.id} />}
           </div>
           <div className="flex items-center justify-between px-2 font-alibaba text-gray">
             <div className="flex items-center gap-2">

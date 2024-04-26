@@ -3,11 +3,17 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
 import { ImPencil2 } from "react-icons/im";
 import { BsTrashFill } from "react-icons/bs";
+import DeleteEstate from "./DeleteEstate";
 
-const EstateButton = () => {
+const EstateButton = ({estate_id}) => {
   const [showMenu, setShowMenu] = useState();
   const showMenuHandler = () => setShowMenu(!showMenu);
 
+  const [confimDelete, setConfirmDelete] = useState();
+  const confirmDeleteHandler = () => {
+    setConfirmDelete(!confimDelete)
+    setShowMenu(false)
+  }
   return (
     <div className="relative">
       {!showMenu && (
@@ -24,12 +30,13 @@ const EstateButton = () => {
             <ImPencil2 />
             <span>ویـرایش</span>
           </div>
-          <div className="w-full flex items-center justify-between">
+          <button onClick={confirmDeleteHandler} className="w-full flex items-center justify-between">
             <BsTrashFill />
             <span>حــــذف</span>
-          </div>
+          </button>
         </div>
       )}
+      {confimDelete && <DeleteEstate estate_id={estate_id} onClose={confirmDeleteHandler}/>}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { supabase } from "../lib/supabase";
+import { removeFromArray } from "../lib/removeFromArray";
 
 const initialState = {
   data: [],
@@ -28,6 +29,25 @@ export const fetchEstateData = (user_id, estate_id, lastEstates) => {
     try {
       await fetchData();
       dispatch(estate_slice.actions.setNewEstate([...lastEstates, estate_id]));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleEstate = (user_id, estate_id, lastEstates) => {
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const { error } = await supabase.from("estate").delete().eq("id", estate_id);
+      const { data } = await supabase
+        .from("user")
+        .update({ estate: removeFromArray(lastEstates, estate_id) })
+        .eq("id", user_id);
+      return { data, error };
+    };
+    try {
+      await fetchData();
+      dispatch(estate_slice.actions.setNewEstate(removeFromArray(lastEstates, estate_id)));
     } catch (error) {
       console.log(error);
     }
