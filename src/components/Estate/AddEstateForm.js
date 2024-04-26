@@ -1,7 +1,8 @@
-import { Form, useActionData } from "react-router-dom";
+import { Form, useActionData, useNavigate } from "react-router-dom";
 import { IoPencil } from "react-icons/io5";
 import { TbRulerMeasure } from "react-icons/tb";
 import { GrLocation } from "react-icons/gr";
+import { BiDetail } from "react-icons/bi";
 
 import InputItem from "../UI/InputItem";
 import UserMap from "../Location/UserMap";
@@ -15,14 +16,15 @@ const AddEstateForm = () => {
   const location = useUserMap("موقعیت مکانی ملک شما");
 
   const estate = useSelector((state) => state.estate);
-  console.log(estate);
-  
+  const navigate = useNavigate();
+
   const actiondata = useActionData();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (actiondata && actiondata.esate_id) {
       dispatch(fetchEstateData(actiondata.user_id, actiondata.esate_id, estate.data));
+      navigate(`/estate/${actiondata.esate_id}`);
     }
   }, [actiondata, dispatch]);
 
@@ -33,6 +35,9 @@ const AddEstateForm = () => {
       </InputItem>
       <InputItem second pHolder={"متراژ مـلک"} name={"area"}>
         <TbRulerMeasure />
+      </InputItem>
+      <InputItem second pHolder={"توضیحات"} name={"area"}>
+        <BiDetail />
       </InputItem>
       <div className="border-2 border-blue rounded-lg p-4">
         <div className="flex items-center gap-3 pb-4">

@@ -10,7 +10,7 @@ const estate_slice = createSlice({
   initialState,
   reducers: {
     setNewEstate(state, action) {
-      state.data = [...state.data, action.payload];
+      state.data = action.payload;
     },
   },
 });
@@ -27,7 +27,7 @@ export const fetchEstateData = (user_id, estate_id, lastEstates) => {
     };
     try {
       await fetchData();
-      dispatch(estate_slice.actions.setNewEstate(estate_id));
+      dispatch(estate_slice.actions.setNewEstate([...lastEstates, estate_id]));
     } catch (error) {
       console.log(error);
     }
