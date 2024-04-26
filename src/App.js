@@ -17,8 +17,9 @@ import AddEstate from "./pages/Estate/AddEstate";
 import EstateLayout from "./pages/Estate/EstateLayout";
 import Estate from "./pages/Estate/Estate";
 import EstateItem from "./pages/Estate/EstateItem";
+import EditEstate from "./pages/Estate/EditEstate";
 
-import { newEstateAction } from "./components/Estate/AddEstateForm";
+import { editEstateAction, newEstateAction } from "./components/Estate/AddEstateForm";
 import { updateFormAction } from "./components/User/UserForm";
 import { formAction } from "./components/Auth/AuthForm";
 
@@ -36,6 +37,18 @@ const router = createBrowserRouter(
         <Route
           path=":id"
           element={<EstateItem />}
+          loader={async ({ params }) => {
+            return await supabase
+              .from("estate")
+              .select("*, user(phone,fullname)")
+              .eq("id", params.id)
+              .single();
+          }}
+        />
+        <Route
+          path=":id/edit"
+          element={<EditEstate />}
+          action={editEstateAction}
           loader={async ({ params }) => {
             return await supabase
               .from("estate")

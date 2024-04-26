@@ -1,4 +1,6 @@
-import { Form, useActionData, useNavigate } from "react-router-dom";
+// Could Be Cleaner #fix_later
+
+import { Form, redirect, useActionData, useNavigate } from "react-router-dom";
 import { IoPencil } from "react-icons/io5";
 import { TbRulerMeasure } from "react-icons/tb";
 import { GrLocation } from "react-icons/gr";
@@ -13,8 +15,12 @@ import { supabase } from "../../lib/supabase";
 import { useEffect } from "react";
 import { fetchEstateData } from "../../store/estate-slice";
 
-const AddEstateForm = () => {
+const AddEstateForm = ({ data }) => {
   const location = useUserMap("موقعیت مکانی ملک شما");
+
+  useEffect(() => {
+    if (data) location.setdata(data.location);
+  }, []);
 
   const estate = useSelector((state) => state.estate);
   const navigate = useNavigate();
@@ -30,17 +36,26 @@ const AddEstateForm = () => {
   }, [actiondata, dispatch]);
 
   return (
-    <Form className="px-6 flex flex-col gap-4" method="post" action="/estate/add">
-      <InputItem second pHolder={"نام ملک"} name={"title"}>
+    <Form
+      className="px-6 flex flex-col gap-4"
+      method="post"
+      action={`${data ? `/estate/${data.id}/edit` : "/estate/add"}`}
+    >
+      <InputItem second dValue={data ? data.title : null} pHolder={"نام ملک"} name={"title"}>
         <IoPencil />
       </InputItem>
-      <InputItem second pHolder={"متراژ مـلک"} name={"area"}>
+      <InputItem second dValue={data ? data.area : null} pHolder={"متراژ مـلک"} name={"area"}>
         <TbRulerMeasure />
       </InputItem>
-      <InputItem second pHolder={"توضیحات"} name={"description"}>
+      <InputItem
+        second
+        dValue={data ? data.description : null}
+        pHolder={"توضیحات"}
+        name={"description"}
+      >
         <BiDetail />
       </InputItem>
-      <InputItem second pHolder={"نشانی"} name={"address"}>
+      <InputItem second dValue={data ? data.address : null} pHolder={"نشانی"} name={"address"}>
         <GrLocation />
       </InputItem>
       <div className="border-2 border-blue rounded-lg p-4">
@@ -48,7 +63,7 @@ const AddEstateForm = () => {
           <BiCurrentLocation />
           <p className="font-alibaba">موقعیت مکانی ملک</p>
         </div>
-        <UserMap location={location} />
+        <UserMap location={location} initLocation={data ? data.location : null} />
       </div>
       <button type="submit" className={"bg-blue font-kalameh text-4xl rounded-lg w-full py-2"}>
         ذخیره تغییرات
@@ -63,8 +78,27 @@ const AddEstateForm = () => {
         }}`}
         name="location"
       />
+      {data && <input type="hidden" defaultValue={data.id} name="id" />}
     </Form>
   );
+};
+
+export const editEstateAction = async ({ request }) => {
+  const userdata = await request.formData();
+  const id = userdata.get("id");
+
+  const estateform = {
+    title: userdata.get("title"),
+    area: userdata.get("area"),
+    address: userdata.get("address"),
+    description: userdata.get("description"),
+    location: JSON.parse(userdata.get("location")),
+  };
+
+  const { error } = await supabase.from("estate").update(estateform).eq("id", id);
+
+  if (error) return { error: "خطا! اطلاعاتی که وارد کردید درست نیست ، لطفا دوباره امتحان کنید" };
+  return redirect(`/estate/${id}`);
 };
 
 export const newEstateAction = async ({ request }) => {

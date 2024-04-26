@@ -10,7 +10,6 @@ const DeleteEstate = ({ onClose, estate_id }) => {
   const estate = useSelector((state) => state.estate);
 
   const navigate = useNavigate();
-  console.log(removeFromArray(estate.data, estate_id));
 
   const deleteEstateHandler = () => {
     dispatch(deleEstate(user.data.id, estate_id, estate.data));

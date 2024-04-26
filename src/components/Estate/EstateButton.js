@@ -4,6 +4,7 @@ import { CgClose } from "react-icons/cg";
 import { ImPencil2 } from "react-icons/im";
 import { BsTrashFill } from "react-icons/bs";
 import DeleteEstate from "./DeleteEstate";
+import { Link } from "react-router-dom";
 
 const EstateButton = ({estate_id}) => {
   const [showMenu, setShowMenu] = useState();
@@ -26,10 +27,10 @@ const EstateButton = ({estate_id}) => {
           <button onClick={showMenuHandler}>
             <CgClose className="text-2xl" />
           </button>
-          <div className="w-full flex items-center gap-3  justify-between">
+          <Link to={`/estate/${estate_id}/edit`} className="w-full flex items-center gap-3  justify-between">
             <ImPencil2 />
             <span>ویـرایش</span>
-          </div>
+          </Link>
           <button onClick={confirmDeleteHandler} className="w-full flex items-center justify-between">
             <BsTrashFill />
             <span>حــــذف</span>
