@@ -19,7 +19,7 @@ const Home = () => {
         />
       </div>
 
-      <div className="flex flex-col px-6 gap-4 py-4">
+      <div className="md:grid md:grid-cols-2 xl:grid-cols-3 flex flex-col px-6 gap-4 py-4">
         {response.data.map((estate)=> <EstateItem key={estate.id} data={estate}/>)}
       </div>
     </>
