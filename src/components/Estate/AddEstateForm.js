@@ -54,7 +54,7 @@ export const newEstateAction = async ({ request }) => {
 
   const estateform = {
     id: Math.floor(100000 + Math.random() * 900000),
-    title: userdata.get("phone"),
+    title: userdata.get("title"),
     area: userdata.get("area"),
     location: JSON.parse(userdata.get("location")),
   };
@@ -62,7 +62,7 @@ export const newEstateAction = async ({ request }) => {
   const { data, error } = await supabase.from("estate").insert(estateform).select().single();
 
   if (error) return { error: "خطا! اطلاعاتی که وارد کردید درست نیست ، لطفا دوباره امتحان کنید" };
-  if (data) return { id };
+  if (data) return { id: data.id };
 };
 
 export default AddEstateForm;
