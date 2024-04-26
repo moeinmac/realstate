@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import AccountItem from "../User/AccountItem";
 import { TfiUser } from "react-icons/tfi";
 import { FiPhone } from "react-icons/fi";
 import { TfiEmail } from "react-icons/tfi";
@@ -7,6 +6,7 @@ import { Form, useActionData } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import { useEffect } from "react";
 import { fetchUserData } from "../../store/user-slice";
+import InputItem from "../UI/InputItem";
 
 const UserForm = () => {
   const user = useSelector((state) => state.user);
@@ -29,17 +29,17 @@ const UserForm = () => {
       <h1 className="font-kalameh text-4xl py-2">
         {user.isCompleted ? "ویرایش حساب کــاربری" : "تکمیل حساب کــاربری"}
       </h1>
-      <AccountItem dValue={user.data.fullname} name={"fullname"}>
+      <InputItem dValue={user.data.fullname} name={"fullname"}>
         <TfiUser className="text-3xl text-black" />
-      </AccountItem>
+      </InputItem>
 
-      <AccountItem dValue={user.data.email}>
+      <InputItem dValue={user.data.email}>
         <TfiEmail className="text-3xl text-black" />
-      </AccountItem>
+      </InputItem>
 
-      <AccountItem dValue={user.data.phone} name={"phone"}>
+      <InputItem dValue={user.data.phone} name={"phone"}>
         <FiPhone className="text-3xl text-black" />
-      </AccountItem>
+      </InputItem>
       <button
         type="submit"
         className={`${
