@@ -14,7 +14,12 @@ const user_slice = createSlice({
     setUser(state, action) {
       state.isAuth = true;
       state.data = action.payload;
-      state.isCompleted = action.payload.fullname && action.payload.phone
+      state.isCompleted = action.payload.fullname && action.payload.phone;
+    },
+    deleteUser(state) {
+      state.isAuth = false;
+      state.data = [];
+      state.isCompleted = false;
     },
   },
 });
@@ -42,12 +47,29 @@ export const sendUserData = (id, email) => {
       const { data } = await supabase
         .from("user")
         .insert({ id, email, profile: PROFILE_URL })
-        .select();
+        .select()
+        .single();
+        
       return { data };
     };
     try {
       const { data } = await fetchData();
       if (data) dispatch(user_slice.actions.setUser(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const signOutUser = () => {
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const { error } = await supabase.auth.signOut();
+      return { error };
+    };
+    try {
+      const { error } = await fetchData();
+      if (!error) dispatch(user_slice.actions.deleteUser());
     } catch (error) {
       console.log(error);
     }

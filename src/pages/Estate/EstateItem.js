@@ -11,6 +11,7 @@ import UserMap from "../../components/Location/UserMap";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import EstateButton from "../../components/Estate/EstateButton";
+import { supabase } from "../../lib/supabase";
 
 const EstateItem = () => {
   const response = useLoaderData();
@@ -95,6 +96,14 @@ const EstateItem = () => {
       </article>
     </>
   );
+};
+
+export const fetchEstate = async (id) => {
+  return await supabase
+    .from("estate")
+    .select("*, user(phone,fullname)")
+    .eq("id", id)
+    .single();
 };
 
 export default EstateItem;

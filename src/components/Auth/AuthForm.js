@@ -17,9 +17,13 @@ const AuthForm = ({ isLogin }) => {
 
   useEffect(() => {
     if (actiondata && actiondata.data) {
-      if (actiondata.isLogin === "true") dispatch(fetchUserData(actiondata.data.user.id));
-      else dispatch(sendUserData(actiondata.data.user.id, actiondata.data.user.email));
-      navigate("/user");
+      if (actiondata.isLogin === "true") {
+        dispatch(fetchUserData(actiondata.data.user.id));
+        navigate("/");
+      } else {
+        dispatch(sendUserData(actiondata.data.user.id, actiondata.data.user.email));
+        navigate("/user");
+      }
     }
   }, [actiondata]);
 

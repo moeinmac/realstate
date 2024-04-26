@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "../UI/Modal";
-import { deleEstate } from "../../store/estate-slice";
+import { deleteEstate } from "../../store/estate-slice";
 import { useNavigate } from "react-router-dom";
 import { removeFromArray } from "../../lib/removeFromArray";
 
@@ -12,7 +12,7 @@ const DeleteEstate = ({ onClose, estate_id }) => {
   const navigate = useNavigate();
 
   const deleteEstateHandler = () => {
-    dispatch(deleEstate(user.data.id, estate_id, estate.data));
+    dispatch(deleteEstate(user.data.id, estate_id, estate.data));
     navigate("/");
   };
   return (

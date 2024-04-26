@@ -35,7 +35,7 @@ export const fetchEstateData = (user_id, estate_id, lastEstates) => {
   };
 };
 
-export const deleEstate = (user_id, estate_id, lastEstates) => {
+export const deleteEstate = (user_id, estate_id, lastEstates) => {
   return async (dispatch) => {
     const fetchData = async () => {
       const { error } = await supabase.from("estate").delete().eq("id", estate_id);
