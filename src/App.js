@@ -18,6 +18,7 @@ import { formAction } from "./components/Auth/AuthForm";
 import AddEstate from "./pages/Estate/AddEstate";
 import EstateLayout from "./pages/Estate/EstateLayout";
 import Estate from "./pages/Estate/Estate";
+import { newEstateAction } from "./components/Estate/AddEstateForm";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,7 +28,7 @@ const router = createBrowserRouter(
       <Route path="user" element={<User />} action={updateFormAction} />
       <Route path="estate" element={<EstateLayout />}>
         <Route index element={<Estate />} />
-        <Route path="add" element={<AddEstate />} />
+        <Route path="add" element={<AddEstate />} action={newEstateAction}/>
       </Route>
     </Route>
   )

@@ -1,12 +1,13 @@
 import { useState } from "react";
 
-const useUserMap = ({ text }) => {
-  const [location, setLocation] = useState({});
-  return {
-    location,
-    setLocation,
+const useUserMap = (text) => {
+  const [data, setdata] = useState();
+  const location = {
+    data,
+    setdata,
     text,
   };
+  return location;
 };
 
 export default useUserMap;

@@ -1,19 +1,16 @@
-import { useState } from "react";
 import { Marker, Popup, useMapEvents } from "react-leaflet";
 
-const LocationPicker = ({ text }) => {
-  const [location, setLocation] = useState();
-
+const LocationPicker = ({ location }) => {
   useMapEvents({
     click: (event) => {
       const { lat, lng } = event.latlng;
-      setLocation({ lat, lng });
+      location.setdata({ lat, lng });
     },
   });
 
-  return location ? (
-    <Marker position={[location.lat, location.lng]}>
-      <Popup>{text}</Popup>
+  return location.data ? (
+    <Marker position={[location.data.lat, location.data.lng]}>
+      <Popup>{location.text}</Popup>
     </Marker>
   ) : (
     <></>
