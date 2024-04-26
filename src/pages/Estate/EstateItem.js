@@ -10,6 +10,7 @@ import { BiCurrentLocation } from "react-icons/bi";
 import UserMap from "../../components/Location/UserMap";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import EstateButton from "../../components/Estate/EstateButton";
 
 const EstateItem = () => {
   const response = useLoaderData();
@@ -30,7 +31,10 @@ const EstateItem = () => {
           <img src={data.photo} className="max-w-full rounded-b-lg" />
         </div>
         <div className="px-6 py-4 flex flex-col gap-4">
-          <h1 className="font-kalameh text-4xl">{data.title}</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="font-kalameh text-4xl">{data.title}</h1>
+            {user.data.id === data.owner && <EstateButton />}
+          </div>
           <div className="flex items-center justify-between px-2 font-alibaba text-gray">
             <div className="flex items-center gap-2">
               <ImUserTie className="bg-green text-white text-2xl p-1 rounded-full" />
