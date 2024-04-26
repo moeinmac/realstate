@@ -1,8 +1,9 @@
 import { IoLocation } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const Profile = ({ profile, fullname }) => {
   return (
-    <div className="flex items-center gap-2">
+    <Link to="/user" className="flex items-center gap-2">
       <div className="w-14 h-14">
         <img src={profile} alt="پرفایل" className="max-w-full rounded-full" />
       </div>
@@ -15,7 +16,7 @@ const Profile = ({ profile, fullname }) => {
           <p>تهران ، ایران</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
