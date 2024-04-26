@@ -6,7 +6,7 @@ const EstateItem = ({ data }) => {
   return (
     <Link to={`/estate/${data.id}`} className="bg-[#000000] pb-3 rounded-b-lg">
       <div>
-        <img src={data.photo} className="max-w-full rounded-lg" />
+        <img src={data.photo} className="max-w-full rounded-lg" alt="تصویر ملک"/>
       </div>
       <div className="px-6 py-2 flex flex-col gap-2">
         <h1 className="font-kalameh text-4xl text-blue">{data.title}</h1>

@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { FcHome } from "react-icons/fc";
 import { RiUserReceived2Line } from "react-icons/ri";
 import BackButton from "./BackButton";
+import AddStateButton from "./AddStateButton";
 
 const Header = () => {
   const user = useSelector((state) => state.user);
@@ -16,7 +17,7 @@ const Header = () => {
         <>
           <Profile profile={user.data.profile} fullname={user.data.fullname} />
           {location.pathname === "/" ? (
-            <RiNotification2Fill className="text-3xl" />
+            <AddStateButton className="text-3xl" />
           ) : (
             <BackButton />
           )}

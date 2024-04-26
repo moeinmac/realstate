@@ -6,6 +6,7 @@ import { IoLocation } from "react-icons/io5";
 import { BsTelephone } from "react-icons/bs";
 import { persianNumbers } from "../../lib/persianNumbers";
 import { timeSince } from "../../lib/timeSince";
+import { BiCurrentLocation } from "react-icons/bi";
 import UserMap from "../../components/Location/UserMap";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -23,7 +24,7 @@ const EstateItem = () => {
   const data = response.data;
 
   return (
-    <main className="relative">
+    <>
       <header>
         <div>
           <img src={data.photo} className="max-w-full rounded-b-lg" />
@@ -56,9 +57,18 @@ const EstateItem = () => {
             {data.description ? data.description : "توضحیاتی جهت نمایش وجود ندارد"}
           </p>
         </div>
+
+        <div className={`flex gap-2 ${data.address ? "flex-col" : ""}`}>
+          <h3 className="font-kalameh text-2xl flex-start flex  gap-1">
+            <IoLocation />
+            <span>نشانی : </span>
+          </h3>
+          <p className="font-alibaba">{data.address}</p>
+        </div>
+
         <div className="flex gap-2 flex-col">
           <h3 className="font-kalameh text-2xl flex items-center gap-1">
-            <IoLocation />
+            <BiCurrentLocation />
             موقعیت مکـانی :
           </h3>
           <div className="relative">
@@ -71,11 +81,15 @@ const EstateItem = () => {
         >
           <div className="flex items-center gap-3">
             {!showNumber && <BsTelephone />}
-            {!showNumber ? "شمــاره تـــماس" : user.isAuth ? data.user.phone : "ابتدا وارد  حساب تان شوید"}
+            {!showNumber
+              ? "شمــاره تـــماس"
+              : user.isAuth
+              ? data.user.phone
+              : "ابتدا وارد  حساب تان شوید"}
           </div>
         </button>
       </article>
-    </main>
+    </>
   );
 };
 

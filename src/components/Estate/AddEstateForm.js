@@ -3,6 +3,7 @@ import { IoPencil } from "react-icons/io5";
 import { TbRulerMeasure } from "react-icons/tb";
 import { GrLocation } from "react-icons/gr";
 import { BiDetail } from "react-icons/bi";
+import { BiCurrentLocation } from "react-icons/bi";
 
 import InputItem from "../UI/InputItem";
 import UserMap from "../Location/UserMap";
@@ -36,12 +37,15 @@ const AddEstateForm = () => {
       <InputItem second pHolder={"متراژ مـلک"} name={"area"}>
         <TbRulerMeasure />
       </InputItem>
-      <InputItem second pHolder={"توضیحات"} name={"area"}>
+      <InputItem second pHolder={"توضیحات"} name={"description"}>
         <BiDetail />
+      </InputItem>
+      <InputItem second pHolder={"نشانی"} name={"address"}>
+        <GrLocation />
       </InputItem>
       <div className="border-2 border-blue rounded-lg p-4">
         <div className="flex items-center gap-3 pb-4">
-          <GrLocation />
+          <BiCurrentLocation />
           <p className="font-alibaba">موقعیت مکانی ملک</p>
         </div>
         <UserMap location={location} />
@@ -70,6 +74,8 @@ export const newEstateAction = async ({ request }) => {
     id: Math.floor(100000 + Math.random() * 900000),
     title: userdata.get("title"),
     area: userdata.get("area"),
+    address: userdata.get("address"),
+    description: userdata.get("description"),
     location: JSON.parse(userdata.get("location")),
   };
 
